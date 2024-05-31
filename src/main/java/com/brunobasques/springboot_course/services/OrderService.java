@@ -13,16 +13,16 @@ import com.brunobasques.springboot_course.repositories.OrderRepository;
 public class OrderService {
 
 	@Autowired
-	private OrderRepository userRepository;
+	private OrderRepository orderRepository;
 	
 	public List<Order> findAll()
 	{
-		return userRepository.findAll();		
+		return orderRepository.findAll();		
 	}
 	
 	public Order findById(Long id)
 	{
-		Optional<Order> user = userRepository.findById(id);		
-		return user.get();
+		Optional<Order> order = orderRepository.findById(id);		
+		return order.get();
 	}
 }

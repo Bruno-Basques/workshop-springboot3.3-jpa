@@ -29,7 +29,7 @@ public class OrderResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Order> findById(@PathVariable Long id)
 	{		
-		Order user = userService.findById(id);
-		return ResponseEntity.ok().body(user);
+		Order order = userService.findById(id);
+		return ResponseEntity.ok().body(order);
 	}
 }
