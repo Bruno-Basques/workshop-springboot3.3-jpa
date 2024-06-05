@@ -7,7 +7,9 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +33,11 @@ public class Product implements Serializable{
 	private Double price;
 	private String imgUrl;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY,
+		      cascade = {
+		              CascadeType.PERSIST,
+		              CascadeType.MERGE
+		          })
 	@JoinTable(name = "tb_product_category", 
 	joinColumns = @JoinColumn(name = "product_id"),
 	inverseJoinColumns = @JoinColumn(name = "category_id"))
@@ -123,4 +129,15 @@ public class Product implements Serializable{
 				&& Objects.equals(id, other.id) && Objects.equals(imgUrl, other.imgUrl)
 				&& Objects.equals(name, other.name) && Objects.equals(price, other.price);
 	}	
+	
+	public void removeCategory(long categoryId) {
+	    Category category = this.categories
+	    		.stream()
+	    		.filter(t -> t.getId() == categoryId)
+	    		.findFirst().orElse(null);
+	    if (category != null) {
+	      this.categories.remove(category);
+	      category.getProducts().remove(this);
+	    }
+	}
 }
