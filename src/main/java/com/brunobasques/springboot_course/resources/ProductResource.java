@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.brunobasques.springboot_course.entities.Product;
-import com.brunobasques.springboot_course.entities.Product;
 import com.brunobasques.springboot_course.services.ProductService;
 
 @RestController
@@ -71,5 +70,12 @@ public class ProductResource {
 			@PathVariable(value = "categoryId") Long categoryId) {	  
 		productService.deleteCategoryFromProduct(productId, categoryId);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/{productId}/categories/{categoryId}")
+	public ResponseEntity<Product> insertCategoryIntoProduct(@PathVariable(value = "productId") Long productId, 
+			@PathVariable(value = "categoryId") Long categoryId) {	  
+		Product product = productService.addCategoryFromProduct(productId, categoryId);
+		return ResponseEntity.ok().body(product);
 	}
 }

@@ -140,4 +140,11 @@ public class Product implements Serializable{
 	      category.getProducts().remove(this);
 	    }
 	}
+	
+	public void addCategory(Category category) {
+	    if (category != null) {
+	      this.categories.add(category);
+	      category.getProducts().add(this);
+	    }
+	}
 }

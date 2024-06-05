@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.brunobasques.springboot_course.entities.Category;
 import com.brunobasques.springboot_course.entities.Product;
 import com.brunobasques.springboot_course.repositories.ProductRepository;
 import com.brunobasques.springboot_course.services.exceptions.DatabaseException;
@@ -20,6 +21,8 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private CategoryService categoryService;
 	
 	public List<Product> findAll()
 	{
@@ -80,5 +83,13 @@ public class ProductService {
 		Product product = findById(productId);			    
 		product.removeCategory(categoryId);
 		productRepository.save(product);		
+	}
+	
+	public Product addCategoryFromProduct(Long productId, Long categoryId)
+	{
+		Product product = findById(productId);	
+		Category category = categoryService.findById(categoryId);
+		product.addCategory(category);
+		return productRepository.save(product);		
 	}
 }
