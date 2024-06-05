@@ -2,11 +2,11 @@ package com.brunobasques.springboot_course.entities.enums;
 
 public enum OrderStatus {
 
-	WAITING_PAYMENT(1),
-	PAID(2),
-	SHIPPED(3),
-	DELIVERED(4),
-	CANCELED(5);
+	WAITING_PAYMENT(0),
+	PAID(1),
+	SHIPPED(2),
+	DELIVERED(3),
+	CANCELED(4);
 	
 	private int code;
 	
