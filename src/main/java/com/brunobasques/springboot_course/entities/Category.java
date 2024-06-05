@@ -7,7 +7,9 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,7 +28,11 @@ public class Category implements Serializable{
 	private String name;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "categories")
+	@ManyToMany(fetch = FetchType.LAZY,
+		      cascade = {
+		              CascadeType.PERSIST,
+		              CascadeType.MERGE
+		          },mappedBy = "categories")
 	private Set<Product> products = new HashSet<>();
 	
 	public Category ()
