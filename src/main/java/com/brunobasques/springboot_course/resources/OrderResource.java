@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.brunobasques.springboot_course.contracts.OrderRequest;
 import com.brunobasques.springboot_course.entities.Order;
+import com.brunobasques.springboot_course.entities.enums.OrderStatus;
 import com.brunobasques.springboot_course.services.OrderService;
 
 @RestController
@@ -40,9 +42,9 @@ public class OrderResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Order> insert(@RequestBody Order order)
+	public ResponseEntity<Order> insert(@RequestBody OrderRequest orderRequest)
 	{
-		order = orderService.insert(order);
+		Order order = orderService.insert(orderRequest);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
@@ -57,11 +59,18 @@ public class OrderResource {
 		orderService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<Order> update(@PathVariable Long id, @RequestBody Order order)
+		
+	@PutMapping(value = "/insertPayment/{id}")
+	public ResponseEntity<Order> insertPayment(@PathVariable Long id)
 	{
-		order = orderService.update(id, order);
+		Order order = orderService.updatePayment(id);
+		return ResponseEntity.ok().body(order);
+	}
+	
+	@PutMapping(value = "/updateOrderStatus/id={id}&orderStatus={orderStatus}")
+	public ResponseEntity<Order> updateStatus(@PathVariable Long id, @PathVariable int orderStatus)
+	{
+		Order order = orderService.updateStatus(id, OrderStatus.valueOf(orderStatus));
 		return ResponseEntity.ok().body(order);
 	}
 }
